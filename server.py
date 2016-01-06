@@ -5,6 +5,7 @@ sys.path.append("util")
 from flask import Flask, make_response, jsonify, request
 import messages
 import api
+import json
 
 app = Flask(__name__)
 
@@ -25,12 +26,14 @@ def server_error(error):
 # method for posting data from an arbitrary application to VizServe
 @app.route("/api/v1.0/data/<int:notebook_id>/<int:visualization_id>", methods=['POST'])
 def post_data(notebook_id, visualization_id):
-    return api.post_data(notebook_id, visualization_id, request)
+    return make_response(jsonify(api.post_data(notebook_id, visualization_id, request)))
 
 # method for getting data that has been pushed to vizserve.
 @app.route("/api/v1.0/data/<int:notebook_id>/<int:visualization_id>", methods=['GET'])
 def get_data(notebook_id, visualization_id):
-    return api.get_data(notebook_id, visualization_id, request)
+    return make_response(jsonify(api.get_data(notebook_id, visualization_id, request)))
 
 if __name__ == "__main__":
-    app.run()
+    with open('conf/server.json') as data_file:
+        config = json.load(data_file)
+    app.run(host=config["host"], port=config["port"])
