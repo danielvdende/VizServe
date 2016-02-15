@@ -3,12 +3,13 @@ sys.path.append("api")
 sys.path.append("util")
 
 from flask import Flask, make_response, jsonify, request
+from flask.ext.cors import CORS
 import messages
 import api
 import json
 
 app = Flask(__name__)
-
+CORS(app)
 # GENERAL
 @app.errorhandler(404)
 def not_found(error):
@@ -24,14 +25,19 @@ def server_error(error):
 
 # API
 # method for posting data from an arbitrary application to VizServe
-@app.route("/api/v1.0/data/<int:notebook_id>/<int:visualization_id>", methods=['POST'])
+# this route assumes both notebook_id and visualization_id are available.
+@app.route("/api/v1.0/data/<notebook_id>/<visualization_id>", methods=['POST'])
 def post_data(notebook_id, visualization_id):
     return make_response(jsonify(api.post_data(notebook_id, visualization_id, request)))
 
 # method for getting data that has been pushed to vizserve.
 @app.route("/api/v1.0/data/<int:notebook_id>/<int:visualization_id>", methods=['GET'])
 def get_data(notebook_id, visualization_id):
-    return make_response(jsonify(api.get_data(notebook_id, visualization_id, request)))
+    return make_response(jsonify(api.get_data(notebook_id, visualization_id, request))).inserted_id
+
+@app.route("/api/v1.0/notebooks", methods=['GET'])
+def get_notebooks():
+    return make_response(jsonify(api.get_notebooks()))
 
 if __name__ == "__main__":
     with open('conf/server.json') as data_file:

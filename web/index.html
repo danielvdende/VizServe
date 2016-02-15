@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="en" ng-app="VizServeApp">
 
 <head>
 
@@ -27,7 +27,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">Dashboard</a>
+                    <a href="#">Home</a>
                 </li>
                 <li>
                     <a href="#">Help</a>
@@ -40,11 +40,16 @@
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12" ng-controller="HomePageCtrl">
                         <h1>VizServe</h1>
                         <p>Welcome to VizServe. Please select one of the notebooks below to take a look at the data submitted.</p>
-
+                        <button class="btn btn-primary btn-lg">
+                          <span class="glyphicon glyphicon-plus"></span> Add Notebook
+                        </button>
                         <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+                        <div class="list-group">
+                          <a class="list-group-item" ng-repeat="notebook in notebooks" href={{notebook.id}}> {{notebook.id}}</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -59,6 +64,10 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+
 
     <!-- Menu Toggle Script -->
     <script>
