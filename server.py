@@ -37,7 +37,7 @@ def get_data(notebook_id, visualization_id):
 
 @app.route("/api/v1.0/notebooks", methods=['GET'])
 def get_notebooks():
-    return make_response(jsonify(api.get_notebooks()))
+	return make_response(json.dumps(api.get_notebooks()))
 
 if __name__ == "__main__":
     with open('conf/server.json') as data_file:
