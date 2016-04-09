@@ -1,4 +1,4 @@
-<html lang="en" ng-app="VizServeApp">
+<html lang="en">
 
 <head>
 
@@ -40,7 +40,7 @@
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-12" ng-controller="HomePageCtrl">
+                    <div class="col-lg-12">
                         <h1>VizServe</h1>
                         <p>Welcome to VizServe. Please select one of the notebooks below to take a look at the data submitted.</p>
                         <button class="btn btn-primary btn-lg">
@@ -48,7 +48,7 @@
                         </button>
                         <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
                         <div class="list-group">
-                          <a class="list-group-item" ng-repeat="notebook in notebooks" href={{notebook.id}}> {{notebook.id}}</a>
+                          <a class="list-group-item"></a>
                         </div>
                     </div>
                 </div>
@@ -59,21 +59,14 @@
     </div>
     <!-- /#wrapper -->
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/angular.min.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-
 
     <!-- Menu Toggle Script -->
     <script>
-    $("#menu-toggle").click(function(e) {
+    document.getElementById("menu-toggle").addEventListener("click", function(e){
         e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
+        document.getElementById("wrapper").classList.toggle("toggled");
     });
     </script>
 
