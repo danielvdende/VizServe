@@ -15,12 +15,14 @@ function fetchNotebooks(){
 	    renderNotebooks()
 	  } else {
 	    // We reached our target server, but it returned an error
+	    // TODO: proper error handling
 	    console.log("ohnoes");
 	  }
 	};
 
 	request.onerror = function() {
 	  // There was a connection error of some sort
+	  // TODO: proper error handling
 	  console.log("different ohnoes");
 	};
 
@@ -31,11 +33,10 @@ function renderNotebooks(){
 	var fragment = document.createDocumentFragment();
 	var element;
 	for(var i=0; i < indexData.notebooks.length; i++){
-		console.log(indexData.notebooks[i]);
 		element = document.createElement("a");
 		element.className = "list-group-item";
-		element.innerHTML = "Notebook " + indexData.notebooks[i].notebook_id;
-		element.href = indexData.notebooks[i];
+		element.innerHTML = "Notebook " + indexData.notebooks[i]._id;
+		element.href = "notebook.html?id=" + indexData.notebooks[i]._id;
 		fragment.appendChild(element);
 	}
 	document.getElementById("notebook_list").appendChild(fragment);

@@ -10,7 +10,7 @@ file_loc = os.path.dirname(__file__)
 
 # get the data for a given visualization in a given notebook
 def get_data(notebook_id, visualization_id):
-    print "something"
+    print "sometvizservehing"
 
 def initialize():
 
@@ -28,10 +28,18 @@ def initialize():
 	client = pymongo.MongoClient()
 	db = client[config["database"]]
 
+# TODO: rework, possibly unnecessary to include notebook_id
 def write_data(notebook_id, visualization_id, data):
     return db.vizserve.insert_one({"notebook_id":notebook_id, "visualization_id":visualization_id,"data":data})
 
 def get_notebooks():
-    return list(db.vizserve.find({}, {"notebook_id":1, "notebook_name":1, "_id":0}))
+    return list(db.notebooks.find({}, {"_id":1, "name":1,}))
+
+def get_visualizations_for_notebook(notebook_id):
+    # first get a list of viz_ids that require fetching.
+    viz_ids = list(db.notebooks.find({"_id":notebook_id}, {"viz":1, "_id":0}))
+    viz_ids = viz_ids[0]['viz']
+    # now fetch the names and id's of these visualizations
+    return list(db.viz.find({"_id":{"$in":viz_ids}}, {"_id":1, "name":1, "type":1}))
 
 initialize()

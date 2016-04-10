@@ -39,6 +39,11 @@ def get_data(notebook_id, visualization_id):
 def get_notebooks():
 	return make_response(json.dumps(api.get_notebooks()))
 
+# returns a list of visualization ids (+ their type) to be used as parameters for various iframes
+@app.route("/api/v1.0/notebooks/<notebook_id>", methods=['GET'])
+def get_visualizations_for_notebook(notebook_id):
+	return make_response(json.dumps(api.get_visualizations_for_notebook(notebook_id)))
+
 if __name__ == "__main__":
     with open('conf/server.json') as data_file:
         config = json.load(data_file)

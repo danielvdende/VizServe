@@ -17,3 +17,7 @@ def get_data(notebook_id, visualization_id, request):
 def get_notebooks():
     notebooks = db.get_notebooks()
     return notebooks
+
+def get_visualizations_for_notebook(notebook_id):
+    visualizations = db.get_visualizations_for_notebook(notebook_id)
+    return visualizations
