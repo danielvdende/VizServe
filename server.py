@@ -44,6 +44,11 @@ def get_notebooks():
 def get_visualizations_for_notebook(notebook_id):
 	return make_response(json.dumps(api.get_visualizations_for_notebook(notebook_id)))
 
+@app.route("/api/v1.0/notebooks", methods=['POST'])
+def create_notebook():
+	print "HI"
+	return make_response(api.create_notebook(json.dumps(request.get_json())))
+
 if __name__ == "__main__":
     with open('conf/server.json') as data_file:
         config = json.load(data_file)

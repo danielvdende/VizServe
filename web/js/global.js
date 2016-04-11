@@ -4,5 +4,6 @@ document.getElementById("menu-toggle").addEventListener("click", function(e){
 });
 
 var vizServeConfig = {
-  "apiUrl": "http://localhost:5000/api/v1.0"
+  "apiUrl": "http://localhost:5000/api/v1.0",
+  "notebookHashLength": 20
 }

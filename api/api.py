@@ -21,3 +21,12 @@ def get_notebooks():
 def get_visualizations_for_notebook(notebook_id):
     visualizations = db.get_visualizations_for_notebook(notebook_id)
     return visualizations
+
+def create_notebook(notebook):
+    print "api " + notebook
+    # # first validate the notebook.
+    if "_id" in notebook and "name" in notebook:
+        db.create_notebook(notebook)
+        return "Notebook created"
+    else:
+        return "Invalid notebook"

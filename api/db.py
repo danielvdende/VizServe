@@ -42,4 +42,13 @@ def get_visualizations_for_notebook(notebook_id):
     # now fetch the names and id's of these visualizations
     return list(db.viz.find({"_id":{"$in":viz_ids}}, {"_id":1, "name":1, "type":1}))
 
+def create_notebook(notebook):
+    # print notebook
+    print "hello"
+    print notebook
+    res = db.notebooks.insert(notebook)
+    print res
+
 initialize()
+
+# create_notebook({"_id":"testy", "name":"HI"})
