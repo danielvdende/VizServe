@@ -31,9 +31,11 @@ def post_data(notebook_id, visualization_id):
     return make_response(jsonify(api.post_data(notebook_id, visualization_id, request)))
 
 # method for getting data that has been pushed to vizserve.
-@app.route("/api/v1.0/data/<int:notebook_id>/<int:visualization_id>", methods=['GET'])
+@app.route("/api/v1.0/viz/<visualization_id>", methods=['GET'])
 def get_data(notebook_id, visualization_id):
-    return make_response(jsonify(api.get_data(notebook_id, visualization_id, request))).inserted_id
+	print request.args
+	print "HELLO"
+	return make_response(json.dumps(api.get_data(visualization_id, request)))
 
 @app.route("/api/v1.0/notebooks", methods=['GET'])
 def get_notebooks():
@@ -46,7 +48,6 @@ def get_visualizations_for_notebook(notebook_id):
 
 @app.route("/api/v1.0/notebooks", methods=['POST'])
 def create_notebook():
-	print "HI"
 	return make_response(api.create_notebook(json.dumps(request.get_json())))
 
 if __name__ == "__main__":

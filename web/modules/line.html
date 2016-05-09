@@ -1,1 +1,37 @@
-<h1>Line chart</h1>
+<html>
+	<h1>Line chart</h1>
+
+	<script>
+	window.onload = function(){
+		var id = document.location.search.split("=")[1];
+
+		fetchData(id);
+	}
+
+	function fetchData(id){
+		var request = new XMLHttpRequest();
+		console.log(parent.vizServeConfig.apiUrl);
+		request.open('GET', parent.vizServeConfig.apiUrl + "/viz/" + id, true);
+
+		request.onload = function() {
+		  if (request.status >= 200 && request.status < 400) {
+		    // Success!
+		    console.log(request.responseText);
+		  } else {
+		    // We reached our target server, but it returned an error
+		    // TODO: proper error handling
+		    console.log("ohnoes");
+		  }
+		};
+
+		request.onerror = function() {
+		  // There was a connection error of some sort
+		  // TODO: proper error handling
+		  console.log("different ohnoes");
+		};
+
+		request.send();
+	}
+	
+	</script>
+</html>

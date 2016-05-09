@@ -49,6 +49,7 @@ def create_notebook(notebook):
     res = db.notebooks.insert(notebook)
     print res
 
-initialize()
+def get_visualization(visualization_id):
+    return db.viz.find_one({"_id":visualization_id})
 
-# create_notebook({"_id":"testy", "name":"HI"})
+initialize()

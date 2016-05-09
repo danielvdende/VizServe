@@ -9,10 +9,10 @@ def post_data(notebook_id, visualization_id, request):
     return {"empty": result}
 
 
-def get_data(notebook_id, visualization_id, request):
-    print "get to", notebook_id, visualization_id, request
-    db.test_method()
-    return {"empty":"message"}
+def get_data(visualization_id, request):
+    print "get to", visualization_id, request
+    visualization = db.get_visualization(visualization_id)
+    return visualization
 
 def get_notebooks():
     notebooks = db.get_notebooks()
