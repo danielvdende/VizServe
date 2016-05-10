@@ -32,9 +32,7 @@ def post_data(notebook_id, visualization_id):
 
 # method for getting data that has been pushed to vizserve.
 @app.route("/api/v1.0/viz/<visualization_id>", methods=['GET'])
-def get_data(notebook_id, visualization_id):
-	print request.args
-	print "HELLO"
+def get_data(visualization_id):
 	return make_response(json.dumps(api.get_data(visualization_id, request)))
 
 @app.route("/api/v1.0/notebooks", methods=['GET'])

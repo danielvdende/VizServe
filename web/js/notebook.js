@@ -41,6 +41,7 @@ function renderViz(){
 		iframe = document.createElement("iframe")
 		iframe.src = "modules/" + notebookData.viz[i].type + ".html?id=" + notebookData.viz[i]._id;
 		iframe.name = "john";
+		iframe.id = notebookData.viz[i]._id + "_frame";
 		row.appendChild(iframe);
 		fragment.appendChild(row);
 	}
