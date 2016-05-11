@@ -10,10 +10,6 @@
   shape-rendering: crispEdges;
 }
 
-.x.axis path {
-  display: none;
-}
-
 .line {
   fill: none;
   stroke: steelblue;
@@ -33,7 +29,7 @@
 	var vizData = {};
 	window.onload = function(){
 		var id = document.location.search.split("=")[1];
-
+		
 		fetchData(id);
 	}
 
@@ -69,12 +65,10 @@
 		console.log(vizData.data);
 
 		var margin = {top: 20, right: 20, bottom: 30, left: 50},
-		    width = 400 - margin.left - margin.right,
+		    width = 700 - margin.left - margin.right,
 		    height = 400 - margin.top - margin.bottom;
 
-		var formatDate = d3.time.format("%d-%b-%y");
-
-		var x = d3.time.scale()
+		var x = d3.scale.linear()
 		    .range([0, width]);
 
 		var y = d3.scale.linear()
@@ -105,7 +99,12 @@
 		svg.append("g")
 			.attr("class", "x axis")
 			.attr("transform", "translate(0," + height + ")")
-			.call(xAxis);
+			.call(xAxis)
+			.append("text")
+			.attr("dy", "-.71em")
+			.attr("x", 650)
+			.style("text-anchor","end")
+			.text("X");
 
 		svg.append("g")
 			.attr("class", "y axis")
@@ -115,7 +114,7 @@
 			.attr("y", 6)
 			.attr("dy", ".71em")
 			.style("text-anchor", "end")
-			.text("Price ($)");
+			.text("y");
 
 		svg.append("path")
 			.datum(vizData.data)
