@@ -18,25 +18,45 @@
 
 </style>
 	<body>
-		<div id="linegraph">
-			
-		</div>
 	</body>
 
     <script src="../js/d3.min.js"></script>
 
 	<script>
 	var vizData = {};
+	var vizId = null;
 	window.onload = function(){
-		var id = document.location.search.split("=")[1];
-		
-		fetchData(id);
+		vizId = document.location.search.split("=")[1];
+
+		// creates the elements needed for the visualization with correct id's for usage throughout vizserve.
+		initializeDocument();
+
+		fetchData();
 	}
 
-	function fetchData(id){
+	// Init the document for this visualization. For now assumes the presence of the parent error handler.
+	// Two panels are added: error_panel for displaying any errors that my occur, and a viz_panel for the visualization itself.
+	function initializeDocument(){
+		var body = document.querySelector("body");
+		console.log(body);
+		var fragment = document.createDocumentFragment();
+
+		var error_panel = document.createElement("div");
+		error_panel.classList = "hidden error_panel";
+		error_panel.id = vizId + "_error_panel";
+		fragment.appendChild(error_panel);
+
+		var viz_panel = document.createElement("div");
+		viz_panel.id = vizId + "_viz_panel";
+		fragment.appendChild(viz_panel);
+
+		body.appendChild(fragment);
+
+	}
+
+	function fetchData(){
 		var request = new XMLHttpRequest();
-		console.log(parent.vizServeConfig.apiUrl);
-		request.open('GET', parent.vizServeConfig.apiUrl + "/viz/" + id, true);
+		request.open('GET', parent.vizServeConfig.apiUrl + "/viz/" + vizId, true);
 
 		request.onload = function() {
 		  if (request.status >= 200 && request.status < 400) {
@@ -45,18 +65,20 @@
 		    drawLineGraph();
 		  } else {
 		    // We reached our target server, but it returned an error
-		    // TODO: proper error handling
-		    console.log("ohnoes");
+		    parent.errorHandler.serverError(vizId + "_error_panel", "Could not fetch data for this visualization")
 		  }
 		};
 
 		request.onerror = function() {
 		  // There was a connection error of some sort
-		  // TODO: proper error handling
-		  console.log("different ohnoes");
+  		    parent.errorHandler.serverError(vizId + "_error_panel", "Network error, could not connect to server.")
 		};
 
-		request.send();
+		try{
+			request.send();
+		} catch(e){
+			parent.errorHandler.serverError(vizId + "_error_panel", "Network error, could not connect to server.")	
+		}
 	}
 
 	// initial line graph drawing function, should only be used on first use.
@@ -86,7 +108,7 @@
 		    .x(function(d) { return x(d.x); })
 		    .y(function(d) { return y(d.y); });
 
-		var svg = d3.select("#linegraph").append("svg")
+		var svg = d3.select("#" + vizId + "_viz_panel").append("svg")
 		    .attr("width", width + margin.left + margin.right)
 		    .attr("height", height + margin.top + margin.bottom)
 		  .append("g")

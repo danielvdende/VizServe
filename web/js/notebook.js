@@ -17,18 +17,20 @@ function fetchVisualizations(id){
 	    renderViz()
 	  } else {
 	    // We reached our target server, but it returned an error
-	    // TODO: proper error handling
-	    console.log("ohnoes");
+	    errorHandler.serverError("notebook_error_panel", "Could not fetch visualizations for this notebook from server.")
 	  }
 	};
 
 	request.onerror = function() {
 	  // There was a connection error of some sort
-	  // TODO: proper error handling
-	  console.log("different ohnoes");
+	  errorHandler.networkError("notebook_error_panel", "Network error, could not establish connection to server");
+	  
 	};
-
-	request.send();
+	try{
+		request.send();
+	} catch(e){
+		errorHandler.networkError("notebook_error_panel", "Network error, could not establish connection to server");	
+	}
 }
 
 function renderViz(){
