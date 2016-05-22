@@ -2,15 +2,14 @@ import os
 import pymongo
 import json
 
+# TODO: for all these methods, we should add some kind of error handling for 
+# the database calls. Unclear what happens now if the call fails.
+
 config = {}
 client = {}
 db = {}
 credentials = {}
 file_loc = os.path.dirname(__file__)
-
-# get the data for a given visualization in a given notebook
-def get_data(notebook_id, visualization_id):
-    print "sometvizservehing"
 
 def initialize():
 
@@ -28,11 +27,17 @@ def initialize():
 	client = pymongo.MongoClient()
 	db = client[config["database"]]
 
-# TODO: rework, possibly unnecessary to include notebook_id
-def write_data(notebook_id, visualization_id, data):
-    return db.vizserve.insert_one({"notebook_id":notebook_id, "visualization_id":visualization_id,"data":data})
+def write_viz_data(visualization_id, data):
+    # TODO: possibly add validation for visualization_id
+    db.viz.update(
+        { "_id":visualization_id },
+        { data},
+        { "upsert": True }
+    )
 
 def get_notebooks():
+    """Return a the ids and names of all existing notebooks.
+    """
     return list(db.notebooks.find({}, {"_id":1, "name":1,}))
 
 def get_visualizations_for_notebook(notebook_id):
@@ -43,11 +48,8 @@ def get_visualizations_for_notebook(notebook_id):
     return list(db.viz.find({"_id":{"$in":viz_ids}}, {"_id":1, "name":1, "type":1}))
 
 def create_notebook(notebook):
-    # print notebook
-    print "hello"
-    print notebook
     res = db.notebooks.insert(notebook)
-    print res
+    # TODO: add som return value to indicate whether the insertion completed.
 
 def get_visualization(visualization_id):
     return db.viz.find_one({"_id":visualization_id})
