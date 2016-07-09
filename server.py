@@ -40,10 +40,9 @@ def update_visualization(visualization_id):
 
 # Remove a given visualization (should also remove any data associated with 
 # this visualization)
-# TODO: implement method
 @app.route("/api/v1.0/viz/<visualization_id>", methods=['DELETE'])
 def remove_visualization(visualization_id):
-    return None
+    return make_response(json.dumps(api.remove_visualization(visualization_id)))
 
 # returns a list of notebook objects with _id and name per notebook.
 @app.route("/api/v1.0/notebooks", methods=['GET'])
@@ -66,8 +65,8 @@ def update_notebook(notebook_id):
 # Remove a given notebook. This will NOT remove the visualizations created
 # within
 @app.route("/api/v1.0/notebooks/<notebook_id>", methods=['DELETE'])
-def remote_notebook(notebook_id):
-    return None
+def remove_notebook(notebook_id):
+    return make_response(json.dumps(api.remove_notebook(notebook_id)))
 
 # Create a new notebook.
 @app.route("/api/v1.0/notebooks", methods=['POST'])

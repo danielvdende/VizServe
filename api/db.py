@@ -54,4 +54,10 @@ def create_notebook(notebook):
 def get_visualization(visualization_id):
     return db.viz.find_one({"_id":visualization_id})
 
+def remove_visualization(visualization_id):
+    return db.viz.remove({"_id":visualization_id})
+
+def remove_notebook(notebook_id):
+    return db.notebooks.remove({"_id":notebook_id})
+
 initialize()

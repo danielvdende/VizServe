@@ -1,3 +1,7 @@
+* {
+	font-family: sans-serif;
+}
+
 iframe{
 	border: none;
 	height: 500px;

@@ -64,3 +64,17 @@ def create_notebook(notebook):
         return "Notebook created"
     else:
         return "Invalid notebook"
+
+def remove_visualization(visualization_id):
+    """ TODO: comment
+        TODO: return sensible value
+    """
+    db.remove_visualization(visualization_id)
+    return {"Removed":visualization_id}
+
+def remove_notebook(notebook_id):
+    """ TODO: comment
+        TODO: return sensible value
+    """
+    db.remove_notebook(notebook_id)
+    return {"Removed":notebook_id}

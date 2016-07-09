@@ -1,8 +1,7 @@
 <html>
+	<link rel="stylesheet" type="text/css" href="../css/global.css">
 	<h1>Line chart</h1>
 	<style>
-
-
 .axis path,
 .axis line {
   fill: none;
@@ -16,9 +15,36 @@
   stroke-width: 1.5px;
 }
 
+.viz_controls {
+	border:3px red solid;
+
+}
+
 </style>
 	<body>
 	</body>
+		<div id="container">
+			
+		</div>
+		<div id="controls">
+			<span>Hor. Axis</span>
+			<select id="control_hor_axis">
+			</select>
+			<span>Ver. Axis</span>
+			<select id="control_ver_axis">
+			</select>
+			<span>Show gridlines</span>
+			<span>Hor. Axis data type</span>
+			<select>
+				<option>Linear</option>
+			</select>
+			<span>Ver. Axis data type</span>
+			<select>
+				<option>Linear</option>
+			</select>
+			<input type="checkbox" name="">
+			<button>Update</button>
+		</div>
 
     <script src="../js/d3.min.js"></script>
 
@@ -37,8 +63,7 @@
 	// Init the document for this visualization. For now assumes the presence of the parent error handler.
 	// Two panels are added: error_panel for displaying any errors that my occur, and a viz_panel for the visualization itself.
 	function initializeDocument(){
-		var body = document.querySelector("body");
-		console.log(body);
+		var body = document.querySelector("#container");
 		var fragment = document.createDocumentFragment();
 
 		var error_panel = document.createElement("div");
@@ -48,6 +73,7 @@
 
 		var viz_panel = document.createElement("div");
 		viz_panel.id = vizId + "_viz_panel";
+
 		fragment.appendChild(viz_panel);
 
 		body.appendChild(fragment);
@@ -62,6 +88,9 @@
 		  if (request.status >= 200 && request.status < 400) {
 		    // Success!
 		    vizData = JSON.parse(request.responseText);
+
+		    populateControls();
+
 		    drawLineGraph();
 		  } else {
 		    // We reached our target server, but it returned an error
@@ -84,8 +113,7 @@
 	// initial line graph drawing function, should only be used on first use.
 	// assumes data has been fetched and can be found in vizData.data
 	function drawLineGraph(){
-		console.log(vizData.data);
-
+		// TODO: these sizes need to be relative to the size of the iframe to prevent scrolling
 		var margin = {top: 20, right: 20, bottom: 30, left: 50},
 		    width = 700 - margin.left - margin.right,
 		    height = 400 - margin.top - margin.bottom;
@@ -142,6 +170,35 @@
 			.datum(vizData.data)
 			.attr("class", "line")
 			.attr("d", line);
+	}
+
+	function populateControls(){
+		// this function is called once data has been fetched. The idea is that the control elements should be populated with sensible values/options given the input data.
+		var hor_axis_select = document.getElementById("control_hor_axis");
+		var ver_axis_select = document.getElementById("control_ver_axis");
+
+		// for both dropdowns the same axes should be available.
+		var options = Object.keys(vizData.data[0]);
+		console.log(options);
+		var fragment = document.createDocumentFragment();
+		var option;
+		for (var i = options.length - 1; i >= 0; i--) {
+			option = document.createElement("option");
+			option.value = options[i];
+			option.innerHTML = options[i];
+			fragment.appendChild(option);
+		}
+		var fragment_copy = fragment.cloneNode(true);
+
+		ver_axis_select.appendChild(fragment);
+		hor_axis_select.appendChild(fragment_copy);
+
+
+		// initializeAxisListeners();
+	}
+
+	function initializeAxisListeners(){
+
 	}
 
 	</script>
