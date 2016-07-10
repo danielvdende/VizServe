@@ -8,6 +8,7 @@ VizServe is a simple, REST-based visualization server, which makes it really eas
 - flask
 - Socketio
 - flask-socketio
+- flask-cors
 
 ## API
 VizServe's API offers RESTful endpoints for both the storage and retrieval of data. The API has the following routes:
