@@ -60,7 +60,7 @@ def get_visualizations_for_notebook(notebook_id):
 # TODO: implement method
 @app.route("/api/v1.0/notebooks/<notebook_id>", methods=['PUT'])
 def update_notebook(notebook_id):
-    return None
+    return make_response(json.dumps(api.update_notebook(notebook_id, request.get_json())))
 
 # Remove a given notebook. This will NOT remove the visualizations created
 # within
@@ -71,7 +71,7 @@ def remove_notebook(notebook_id):
 # Create a new notebook.
 @app.route("/api/v1.0/notebooks", methods=['POST'])
 def create_notebook():
-    return make_response(api.create_notebook(json.dumps(request.get_json())))
+    return make_response(api.create_notebook(request.get_json()))
 
 
 # Post data to an existing visualization (i.e. for which the viz id is known
@@ -85,7 +85,7 @@ def put_data(visualization_id):
 # returned to the user.
 @app.route("/api/v1.0/data", methods=['POST'])
 def post_data_new_viz():
-	return make_response(json.dumps(api.post_data_new_viz(request)))
+	return make_response(api.post_data_new_viz(request))
 
 
 

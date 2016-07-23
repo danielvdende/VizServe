@@ -23,7 +23,9 @@ Get a list of all notebooks.
 #### GET 		/api/v1.0/notebooks/{notebook_id}
 Get a list of visualizations associated with a given notebook_id. Should also return other information regarding the notebook.
 #### PUT 		/api/v1.0/notebooks/{notebook_id}
-Update an existing notebook (e.g. notebook configuration, name etc.)
+Update an existing notebook (e.g. notebook configuration, name, viz ids, etc.)
+NOTE: at the moment this is an overwriting update (i.e. the entire config is overwritten,
+if you want to keep any existing config, this needs to be supplied in the request)
 #### DELETE 	/api/v1.0/notebooks/{notebook_id}
 Remove a given notebook. This will NOT remove the visualizations that were created within. Rather, it should be possible to retrieve existing visualizations in the frontend.
 #### POST 		/api/v1.0/notebooks

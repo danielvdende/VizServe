@@ -32,9 +32,10 @@ def write_viz_data(visualization_id, data):
     # TODO: possibly add validation for visualization_id
     db.viz.update(
         { "_id":visualization_id },
-        { data},
-        { "upsert": True }
+         data,
+        upsert=True
     )
+    return "Wrote viz data for {}".format(visualization_id)
 
 def get_notebooks():
     """Return a the ids and names of all existing notebooks.
@@ -43,12 +44,17 @@ def get_notebooks():
 
 def get_visualizations_for_notebook(notebook_id):
     # first get a list of viz_ids that require fetching.
+    # 
+    # TODO: add logic for failing route (i.e. no viz id's attached to this notebook)
     viz_ids = list(db.notebooks.find({"_id":notebook_id}, {"viz":1, "_id":0}))
+
     viz_ids = viz_ids[0]['viz']
     # now fetch the names and id's of these visualizations
     return list(db.viz.find({"_id":{"$in":viz_ids}}, {"_id":1, "name":1, "type":1}))
 
 def create_notebook(notebook):
+    print type(notebook)
+    print notebook
     res = db.notebooks.insert(notebook)
     # TODO: add som return value to indicate whether the insertion completed.
 

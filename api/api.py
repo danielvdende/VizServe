@@ -27,15 +27,18 @@ def post_data_new_viz(request):
     """
     # check if any name has been provided for the visualization, otherwise 
     # generate a random one.
-    data = request.json
-    if not name in data:
+    data = request.get_json()
+    print type(data)
+    print data
+    if not 'name' in data:
         data.name = uuid.uuid4()
 
     # generate the viz id.
-    data._id = uuid.uuid4().hex
+    data['_id'] = uuid.uuid4().hex
 
     # write the new object to db.
-    result = db.write_viz_data(data._id, data)
+    result = db.write_viz_data(data['_id'], data)
+    return result
 
 
 def get_data(visualization_id, request):
@@ -78,3 +81,8 @@ def remove_notebook(notebook_id):
     """
     db.remove_notebook(notebook_id)
     return {"Removed":notebook_id}
+
+def update_notebook(notebook_id, data):
+    """ TODO: comment
+        TODO: return sensible value
+        TODO: should also have a method that allows updating of specific fields instead of full overwrite.
