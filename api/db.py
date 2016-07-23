@@ -20,8 +20,9 @@ def initialize():
     with open(os.path.join(file_loc, '../conf/db.json')) as data_file:
         config = json.load(data_file)
 
-    with open(os.path.join(file_loc, '../credentials/db.json')) as cred_file:
-        credentials = json.load(cred_file)
+    # TODO: use credentials for database connection
+    # with open(os.path.join(file_loc, '../credentials/db.json')) as cred_file:
+    #     credentials = json.load(cred_file)
 
     # now initialize a client object for the db connection
 	client = pymongo.MongoClient()
