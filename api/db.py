@@ -11,8 +11,8 @@ db = {}
 credentials = {}
 file_loc = os.path.dirname(__file__)
 
-def initialize():
 
+def initialize():
     # need to make variables global here in order to be allowed to reassign value.
     global config, client, db, credentials
 
@@ -20,37 +20,41 @@ def initialize():
     with open(os.path.join(file_loc, '../conf/db.json')) as data_file:
         config = json.load(data_file)
 
-    # TODO: use credentials for database connection
-    # with open(os.path.join(file_loc, '../credentials/db.json')) as cred_file:
-    #     credentials = json.load(cred_file)
+        # TODO: use credentials for database connection
+        # with open(os.path.join(file_loc, '../credentials/db.json')) as cred_file:
+        #     credentials = json.load(cred_file)
 
-    # now initialize a client object for the db connection
-	client = pymongo.MongoClient()
-	db = client[config["database"]]
+        # now initialize a client object for the db connection
+        client = pymongo.MongoClient()
+        db = client[config["database"]]
+
 
 def write_viz_data(visualization_id, data):
     # TODO: possibly add validation for visualization_id
     db.viz.update(
-        { "_id":visualization_id },
-         data,
+        {"_id": visualization_id},
+        data,
         upsert=True
     )
     return "Wrote viz data for {}".format(visualization_id)
 
+
 def get_notebooks():
     """Return a the ids and names of all existing notebooks.
     """
-    return list(db.notebooks.find({}, {"_id":1, "name":1,}))
+    return list(db.notebooks.find({}, {"_id": 1, "name": 1,}))
+
 
 def get_visualizations_for_notebook(notebook_id):
     # first get a list of viz_ids that require fetching.
     # 
     # TODO: add logic for failing route (i.e. no viz id's attached to this notebook)
-    viz_ids = list(db.notebooks.find({"_id":notebook_id}, {"viz":1, "_id":0}))
+    viz_ids = list(db.notebooks.find({"_id": notebook_id}, {"viz": 1, "_id": 0}))
 
     viz_ids = viz_ids[0]['viz']
     # now fetch the names and id's of these visualizations
-    return list(db.viz.find({"_id":{"$in":viz_ids}}, {"_id":1, "name":1, "type":1}))
+    return list(db.viz.find({"_id": {"$in": viz_ids}}, {"_id": 1, "name": 1, "type": 1}))
+
 
 def create_notebook(notebook):
     print type(notebook)
@@ -58,13 +62,17 @@ def create_notebook(notebook):
     res = db.notebooks.insert(notebook)
     # TODO: add som return value to indicate whether the insertion completed.
 
+
 def get_visualization(visualization_id):
-    return db.viz.find_one({"_id":visualization_id})
+    return db.viz.find_one({"_id": visualization_id})
+
 
 def remove_visualization(visualization_id):
-    return db.viz.remove({"_id":visualization_id})
+    return db.viz.remove({"_id": visualization_id})
+
 
 def remove_notebook(notebook_id):
-    return db.notebooks.remove({"_id":notebook_id})
+    return db.notebooks.remove({"_id": notebook_id})
+
 
 initialize()

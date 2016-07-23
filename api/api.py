@@ -2,6 +2,7 @@ import json
 import db
 import uuid
 
+
 def post_data(visualization_id, request):
     """Post new data for an existing visualization (i.e. add data to existing
     object in db).
@@ -15,6 +16,7 @@ def post_data(visualization_id, request):
     result = db.write_viz_data(visualization_id, data)
     # TODO: return proper value to describe succes/failure of data write.
     return {"empty": result}
+
 
 def post_data_new_viz(request):
     """Post new data for a new visualization (i.e. we don't know the id, so 
@@ -46,13 +48,16 @@ def get_data(visualization_id, request):
     visualization = db.get_visualization(visualization_id)
     return visualization
 
+
 def get_notebooks():
     notebooks = db.get_notebooks()
     return notebooks
 
+
 def get_visualizations_for_notebook(notebook_id):
     visualizations = db.get_visualizations_for_notebook(notebook_id)
     return visualizations
+
 
 def create_notebook(notebook):
     """Create a new notebook given a notebook object. This object should
@@ -68,21 +73,25 @@ def create_notebook(notebook):
     else:
         return "Invalid notebook"
 
+
 def remove_visualization(visualization_id):
     """ TODO: comment
         TODO: return sensible value
     """
     db.remove_visualization(visualization_id)
-    return {"Removed":visualization_id}
+    return {"Removed": visualization_id}
+
 
 def remove_notebook(notebook_id):
     """ TODO: comment
         TODO: return sensible value
     """
     db.remove_notebook(notebook_id)
-    return {"Removed":notebook_id}
+    return {"Removed": notebook_id}
+
 
 def update_notebook(notebook_id, data):
     """ TODO: comment
         TODO: return sensible value
         TODO: should also have a method that allows updating of specific fields instead of full overwrite.
+    """
