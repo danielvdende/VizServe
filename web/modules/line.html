@@ -73,12 +73,13 @@
 		fragment.appendChild(error_panel);
 
 		var viz_panel = document.createElement("div");
-		viz_panel.id = vizId + "_viz_panel";
+		// for viz-panel, prefix the id, as an id with leading zero leads to issues with 
+		// query selector
+		viz_panel.id = "viz_panel_" + vizId;
 
 		fragment.appendChild(viz_panel);
 
 		body.appendChild(fragment);
-
 	}
 
 	function fetchData(){
@@ -159,12 +160,12 @@
 		// var line = d3.svg.line()
 		//     .x(function(d) { return x(d[vizData.config.hor_axis]); })
 		//     .y(function(d) { return y(d[vizData.config.ver_axis]); });
-		lineGraph.svg = d3.select("#" + vizId + "_viz_panel").append("svg")
+		lineGraph.svg = d3.select("#viz_panel_" + vizId).append("svg")
 							.attr("width", lineGraph.width + lineGraph.margin.left + lineGraph.margin.right)
 							.attr("height", lineGraph.height + lineGraph.margin.top + lineGraph.margin.right)
 						.append("g")
 						.attr("transform", "translate(" + lineGraph.margin.left + "," + lineGraph.margin.top + ")");
-		// var svg = d3.select("#" + vizId + "_viz_panel").append("svg")
+		// var svg = d3.select("#viz_panel_" + vizId).append("svg")
 		//     .attr("width", width + margin.left + margin.right)
 		//     .attr("height", height + margin.top + margin.bottom)
 		//   .append("g")

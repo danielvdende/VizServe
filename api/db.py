@@ -75,4 +75,17 @@ def remove_notebook(notebook_id):
     return db.notebooks.remove({"_id": notebook_id})
 
 
+def update_notebook(notebook_id, data):
+    return db.notebooks.update(
+        {'_id': notebook_id},
+        data,
+        upsert=True
+    )
+
+
+def incremental_update_notebook(notebook_id, data):
+    pass
+
+
+
 initialize()

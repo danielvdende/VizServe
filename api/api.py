@@ -95,3 +95,10 @@ def update_notebook(notebook_id, data):
         TODO: return sensible value
         TODO: should also have a method that allows updating of specific fields instead of full overwrite.
     """
+    db.update_notebook(notebook_id, data)
+    return {"Updated": notebook_id}
+
+
+def incremental_update_notebook(notebook_id, data):
+    # This method should implement incremental updating, see comment in method above.
+    pass
