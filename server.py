@@ -58,8 +58,12 @@ def get_notebooks():
     return make_response(json.dumps(api.get_notebooks()))
 
 
-# returns a list of visualization ids (+ their type)
 @app.route("/api/v1.0/notebooks/<notebook_id>", methods=['GET'])
+def get_notebook_info(notebook_id):
+    return make_response(json.dumps(api.get_notebook_info(notebook_id)))
+
+# returns a list of visualization ids (+ their type) associated with a given notebook
+@app.route("/api/v1.0/notebooks/<notebook_id>/viz", methods=['GET'])
 def get_visualizations_for_notebook(notebook_id):
     return make_response(
         json.dumps(api.get_visualizations_for_notebook(notebook_id)))

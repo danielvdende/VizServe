@@ -102,3 +102,7 @@ def update_notebook(notebook_id, data):
 def incremental_update_notebook(notebook_id, data):
     # This method should implement incremental updating, see comment in method above.
     pass
+
+def get_notebook_info(notebook_id):
+    data = db.get_notebook_info(notebook_id)
+    return data

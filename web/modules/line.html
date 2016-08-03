@@ -17,7 +17,6 @@
 
 .viz_controls {
 	border:3px red solid;
-
 }
 
 </style>
@@ -33,7 +32,8 @@
 			<span>Ver. Axis</span>
 			<select id="control_ver_axis">
 			</select>
-			<span>Show gridlines</span>
+
+			<label><input type="checkbox" name="">Show gridlines</label>
 			<span>Hor. Axis data type</span>
 			<select>
 				<option>Linear</option>
@@ -42,8 +42,6 @@
 			<select>
 				<option>Linear</option>
 			</select>
-			<input type="checkbox" name="">
-			<button>Update</button>
 		</div>
 
     <script src="../js/d3.min.js"></script>
@@ -130,51 +128,31 @@
 		// TODO: type of axis scale should be fetched from config, not hardcoded to linear.
 		lineGraph.x = d3.scale.linear()
 						.range([0, lineGraph.width])
-		// var x = d3.scale.linear()
-		//     .range([0, width]);
 
 		lineGraph.y = d3.scale.linear()
 						.range([lineGraph.height, 0]);
-		// var y = d3.scale.linear()
-		//     .range([height, 0]);
-
 
 		lineGraph.xAxis = d3.svg.axis()
 							.scale(lineGraph.x)
 							.orient("bottom");
-		// var xAxis = d3.svg.axis()
-		//     .scale(x)
-		//     .orient("bottom");
 
 		lineGraph.yAxis = d3.svg.axis()
 							.scale(lineGraph.y)
 							.orient("left");
-		// var yAxis = d3.svg.axis()
-		//     .scale(y)
-		//     .orient("left");
 
 		// TODO: should be possible to define multiple lines?
 		lineGraph.line = d3.svg.line()
 							.x(function(d) {return lineGraph.x(d[vizData.config.hor_axis]); })
 							.y(function(d) {return lineGraph.y(d[vizData.config.ver_axis]); })
-		// var line = d3.svg.line()
-		//     .x(function(d) { return x(d[vizData.config.hor_axis]); })
-		//     .y(function(d) { return y(d[vizData.config.ver_axis]); });
+	
 		lineGraph.svg = d3.select("#viz_panel_" + vizId).append("svg")
 							.attr("width", lineGraph.width + lineGraph.margin.left + lineGraph.margin.right)
 							.attr("height", lineGraph.height + lineGraph.margin.top + lineGraph.margin.right)
 						.append("g")
 						.attr("transform", "translate(" + lineGraph.margin.left + "," + lineGraph.margin.top + ")");
-		// var svg = d3.select("#viz_panel_" + vizId).append("svg")
-		//     .attr("width", width + margin.left + margin.right)
-		//     .attr("height", height + margin.top + margin.bottom)
-		//   .append("g")
-		//     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 		lineGraph.x.domain(d3.extent(vizData.data, function(d){ return d[vizData.config.hor_axis]; }));
 		lineGraph.y.domain(d3.extent(vizData.data, function(d){ return d[vizData.config.ver_axis]; }));
-		// x.domain(d3.extent(vizData.data, function(d) { return d[vizData.config.hor_axis]; }));
-		// y.domain(d3.extent(vizData.data, function(d) { return d[vizData.config.ver_axis]; }));
 
 
 		// TODO: some hardcoded offset values here.
@@ -221,10 +199,6 @@
 			.datum(vizData.data)
 			.attr("class", "line")
 			.attr("d", lineGraph.line);
-		// svg.append("path")
-		// 	.datum(vizData.data)
-		// 	.attr("class", "line")
-		// 	.attr("d", line);
 	}
 
 	function updateLineGraph(){

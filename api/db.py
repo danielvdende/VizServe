@@ -42,14 +42,16 @@ def write_viz_data(visualization_id, data):
 def get_notebooks():
     """Return a the ids and names of all existing notebooks.
     """
-    return list(db.notebooks.find({}, {"_id": 1, "name": 1,}))
+    return list(db.notebooks.find({}, {"_id": 1, "name": 1}))
 
 
 def get_visualizations_for_notebook(notebook_id):
     # first get a list of viz_ids that require fetching.
-    # 
-    # TODO: add logic for failing route (i.e. no viz id's attached to this notebook)
     viz_ids = list(db.notebooks.find({"_id": notebook_id}, {"viz": 1, "_id": 0}))
+
+    if(viz_ids[0] == {}):
+        # if there are no visualizations for this notebook, just return an empty list.
+        return list()
 
     viz_ids = viz_ids[0]['viz']
     # now fetch the names and id's of these visualizations
@@ -86,6 +88,11 @@ def update_notebook(notebook_id, data):
 def incremental_update_notebook(notebook_id, data):
     pass
 
+def get_notebook_info(notebook_id):
+    return list(db.notebooks.find(
+        {'_id':notebook_id},
+        {'viz':0}
+        ))[0]
 
 
 initialize()
