@@ -42,6 +42,9 @@ def post_data_new_viz(request):
     result = db.write_viz_data(data['_id'], data)
     return result
 
+def get_viz_config(visualization_id):
+    viz_config = db.get_viz_config(visualization_id)
+    return viz_config
 
 def get_data(visualization_id, request):
     print "get to", visualization_id, request

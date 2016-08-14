@@ -31,7 +31,7 @@ def initialize():
 
 def write_viz_data(visualization_id, data):
     # TODO: possibly add validation for visualization_id
-    db.viz.update(
+    db.viz_data.update(
         {"_id": visualization_id},
         data,
         upsert=True
@@ -55,7 +55,8 @@ def get_visualizations_for_notebook(notebook_id):
 
     viz_ids = viz_ids[0]['viz']
     # now fetch the names and id's of these visualizations
-    return list(db.viz.find({"_id": {"$in": viz_ids}}, {"_id": 1, "name": 1, "type": 1}))
+    # TODO: determine if this query should be executed on viz_data or viz_config.
+    return list(db.viz_data.find({"_id": {"$in": viz_ids}}, {"_id": 1, "name": 1, "type": 1}))
 
 
 def create_notebook(notebook):
@@ -66,11 +67,15 @@ def create_notebook(notebook):
 
 
 def get_visualization(visualization_id):
-    return db.viz.find_one({"_id": visualization_id})
+    return db.viz_data.find_one({"_id": visualization_id}, {"data":1, "_id":0})
+
+def get_viz_config(visualization_id):
+    return db.viz_config.find_one({"_id":visualization_id})
 
 
 def remove_visualization(visualization_id):
-    return db.viz.remove({"_id": visualization_id})
+    # TODO: this should also remove the config
+    return db.viz_data.remove({"_id": visualization_id})
 
 
 def remove_notebook(notebook_id):

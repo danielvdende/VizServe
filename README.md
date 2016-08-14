@@ -13,7 +13,7 @@ VizServe is a simple, REST-based visualization server, which makes it really eas
 ## API
 VizServe's API offers RESTful endpoints for both the storage and retrieval of data. The API has the following routes:
 #### GET 		/api/v1.0/viz/{visualization_id}
-Get all data associated with a given visualization_id
+Get the configuration for a given visualization
 #### PUT 		/api/v1.0/viz/{visualization_id}
 Update an existing visualization configuration (e.g. axis config, color config, etc.)
 #### DELETE 	/api/v1.0/viz/{visualization_id}
@@ -30,6 +30,8 @@ if you want to keep any existing config, this needs to be supplied in the reques
 Remove a given notebook. This will NOT remove the visualizations that were created within. Rather, it should be possible to retrieve existing visualizations in the frontend.
 #### POST 		/api/v1.0/notebooks
 Create a new notebook.
+#### GET 		/api/v1.0/data/{visualization_id}
+Get all data associated with a given visualization_id
 #### PUT 		/api/v1.0/data/{visualization_id}
 Send new data for an existing visualization with a given id. 
 #### POST 		/api/v1.0/data

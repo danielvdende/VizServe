@@ -30,11 +30,10 @@ def server_error(error):
 
 
 # API
-
-# method for getting data that has been pushed to vizserve.
+# Get the configuration for a given visualization.
 @app.route("/api/v1.0/viz/<visualization_id>", methods=['GET'])
-def get_data(visualization_id):
-    return make_response(json.dumps(api.get_data(visualization_id, request)))
+def get_viz_config(visualization_id):
+    return make_response(json.dumps(api.get_viz_config(visualization_id)))
 
 
 # Update an existing visualization configuration
@@ -89,6 +88,11 @@ def remove_notebook(notebook_id):
 def create_notebook():
     return make_response(api.create_notebook(request.get_json()))
 
+# Get all data for a given visualization
+# method for getting data that has been pushed to vizserve.
+@app.route("/api/v1.0/data/<visualization_id>", methods=['GET'])
+def get_data(visualization_id):
+    return make_response(json.dumps(api.get_data(visualization_id, request)))
 
 # Post data to an existing visualization (i.e. for which the viz id is known
 # and supplied)
