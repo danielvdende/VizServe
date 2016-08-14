@@ -19,6 +19,10 @@
 	border:3px red solid;
 }
 
+.tick line{
+    opacity: 0.2;
+ }
+
 </style>
 	<body>
 	</body>
@@ -33,7 +37,7 @@
 			<select id="control_ver_axis">
 			</select>
 
-			<label><input type="checkbox" name="">Show gridlines</label>
+			<label><input type="checkbox" name="" id="control_grid">Show gridlines</label>
 			<span>Hor. Axis data type</span>
 			<select>
 				<option>Linear</option>
@@ -88,10 +92,12 @@
 		  if (request.status >= 200 && request.status < 400) {
 		    // Success!
 		    vizData = JSON.parse(request.responseText);
+
 		    // TODO: add config in backend for the viz. i.e. axes etc.
 		    vizData.config = {};
 		    vizData.config.hor_axis = "x";
 		    vizData.config.ver_axis = "y";
+		    vizData.config.grid_lines = true;
 		    populateControls();
 
 		    drawLineGraph();
@@ -118,6 +124,7 @@
 	function drawLineGraph(){
 		// TODO: inconsistent naming of axes. Should be referred to as either: hor and ver axis or x and y axis.
 		// TODO: these sizes need to be relative to the size of the iframe to prevent scrolling
+		console.log(vizData);
 		lineGraph.margin = {top: 20, right: 20, bottom: 30, left: 50};
 		lineGraph.width = 700 - lineGraph.margin.left - lineGraph.margin.right;
 		lineGraph.height = 400 - lineGraph.margin.top - lineGraph.margin.bottom;
@@ -139,6 +146,10 @@
 		lineGraph.yAxis = d3.svg.axis()
 							.scale(lineGraph.y)
 							.orient("left");
+
+		if(vizData.config.grid_lines){
+			drawGridLines();
+		}
 
 		// TODO: should be possible to define multiple lines?
 		lineGraph.line = d3.svg.line()
@@ -219,6 +230,10 @@
 							.scale(lineGraph.y)
 							.orient("left");
 
+		if(vizData.config.grid_lines){
+			drawGridLines();
+		}
+
 		// TODO: should be possible to define multiple lines?
 		lineGraph.line = d3.svg.line()
 							.x(function(d) {return lineGraph.x(d[vizData.config.hor_axis]); })
@@ -268,6 +283,18 @@
 
 	}
 
+	function drawGridLines(){
+		lineGraph.xAxis
+			.innerTickSize(-lineGraph.height)
+			.outerTickSize(0)
+			.tickPadding(10);
+
+		lineGraph.yAxis
+			.innerTickSize(-lineGraph.width)
+			.outerTickSize(0)
+			.tickPadding(10);
+	}
+
 	function populateControls(){
 		// this function is called once data has been fetched. The idea is that the control elements should be populated with sensible values/options given the input data.
 		var hor_axis_select = document.getElementById("control_hor_axis");
@@ -293,16 +320,23 @@
 		ver_axis_select.value = vizData.config.ver_axis;
 		hor_axis_select.value = vizData.config.hor_axis;
 
-		initializeAxisListeners();
+		document.getElementById("control_grid").checked = vizData.config.grid_lines;
+
+		initializeControlListeners();
 	}
 
-	function initializeAxisListeners(){
+	function initializeControlListeners(){
 		document.getElementById("control_hor_axis").addEventListener("change", function(){
 			vizData.config.hor_axis = this.value;
 			updateLineGraph();
 		});
 		document.getElementById("control_ver_axis").addEventListener("change", function(){
 			vizData.config.ver_axis = this.value;
+			updateLineGraph();
+		});
+
+		document.getElementById("control_grid").addEventListener("change", function(){
+			vizData.config.grid_lines = this.checked;
 			updateLineGraph();
 		});
 	}
