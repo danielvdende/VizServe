@@ -1,56 +1,3 @@
-<html>
-	<link rel="stylesheet" type="text/css" href="../css/global.css">
-	<h1>Line chart</h1>
-	<style>
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
-
-.viz_controls {
-	border:3px red solid;
-}
-
-.tick line{
-    opacity: 0.2;
- }
-
-</style>
-	<body>
-	</body>
-		<div id="container">
-			
-		</div>
-		<div id="controls">
-			<span>Hor. Axis</span>
-			<select id="control_hor_axis">
-			</select>
-			<span>Ver. Axis</span>
-			<select id="control_ver_axis">
-			</select>
-
-			<label><input type="checkbox" name="" id="control_grid">Show gridlines</label>
-			<span>Hor. Axis data type</span>
-			<select>
-				<option>Linear</option>
-			</select>
-			<span>Ver. Axis data type</span>
-			<select>
-				<option>Linear</option>
-			</select>
-		</div>
-
-    <script src="../js/d3.min.js"></script>
-
-	<script>
 	var vizData = {};
 	var lineGraph = {};
 	var vizId = null;
@@ -340,6 +287,3 @@
 			updateLineGraph();
 		});
 	}
-
-	</script>
-</html>

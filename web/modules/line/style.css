@@ -1,0 +1,20 @@
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.viz_controls {
+	border:3px red solid;
+}
+
+.tick line{
+    opacity: 0.2;
+ }
